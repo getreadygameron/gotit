@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Home</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            justify-content: center;
+align-items: center;
+height: 10vh;
+
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .anime-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .anime-item {
+            width: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .anime-item:hover {
+            transform: scale(1.05);
+        }
+
+        .anime-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .anime-item .anime-info {
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* public/styles.css */
+
+/* ... (previous styles) */
+
+nav {
+    margin-top: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-right: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-links a:hover {
+    color: #00ff00; /* Neon green color */
+}
+
+/* Responsive Navigation */
+
+@media screen and (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+
+.search-container {
+max-width: 400px;
+width: 100%;
+background-color: #fff;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+border-radius: 8px;
+overflow: hidden;
+}
+
+.search-bar {
+width: calc(100% - 40px);
+padding: 10px;
+box-sizing: border-box;
+border: none;
+border-bottom: 1px solid #ccc;
+font-size: 16px;
+outline: none;
+}
+
+.search-button {
+background-color: #4285f4;
+color: #fff;
+border: none;
+padding: 10px;
+border-radius: 0 8px 8px 0;
+cursor: pointer;
+font-size: 16px;
+}
+
+.search-results {
+margin: 20px;
+}
+
+.result-item {
+margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {}
+
+.search-container {
+  max-width: 100%;
+}
+.imag{
+    background-attachment: fixed;
+background-repeat: no-repeat;
+background-size: cover;
+
+}
+
+    </style>
+</head>
+<body >
+
+
+ 
+        <!-- views/partials/header.ejs -->
+
+<header>
+        <div class="container">
+            <h1>Anime Home</h1>
+            <nav>
+                    
+                <ul class="nav-links">
+                    <li><a href="new2.htm">Home</a></li>
+                    <li><a href="list.htm">Anime List</a></li>
+                    <li><a href="gameg.html">games</a></li>
+                </ul>
+            </nav>
+        </div>
+        
+
+
+
+
+
+
+    </header>
+    
+   <!--dance-->
+
+    <div class="anime-list">
+        <div class="anime-item">
+            <img src="#" alt="Anime 1">
+            <div class="anime-info">
+                <h3>naruto</h3>
+                <p>Description of Anime 1.</p>
+            </div>
+        </div>
+
+        <div class="anime-item">
+           <a href="new.htm" ><img src="chain.png" alt="Anime 2"></a>
+            <div class="anime-info">
+                <h3>Anime 2</h3>
+                <p>come makima is wating.</p>
+            </div>
+        </div>
+
+        <!-- Add more anime items as needed -->
+
+    </div>
+
+    <!-- views/animeList.ejs -->
+
+<!-- ... (previous code) -->
+
+
+    
+</body>
+</html>
