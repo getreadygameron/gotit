@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Meter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: black;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #love-meter {
+            width: 80%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #4caf50;
+        }
+
+        button {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #progress-bar-container {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            width: 0;
+            height: 20px;
+            background-color: #4caf50;
+            transition: width 1s ease-in-out;
+        }
+
+        @media screen and (min-width: 600px) {
+            #love-meter {
+                width: 60%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="love-meter">
+        <h2>Love Meter</h2>
+        <label for="yourName">Your Name:</label>
+        <input type="text" id="yourName" placeholder="Your Name">
+
+        <label for="partnerName">Partner's Name:</label>
+        <input type="text" id="partnerName" placeholder="Partner's Name">
+
+        <button onclick="calculateLove()">Calculate</button>
+
+        <div id="result"></div>
+
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateLove() {
+            var yourName = document.getElementById('yourName').value.toLowerCase();
+            var partnerName = document.getElementById('partnerName').value.toLowerCase();
+
+            if (yourName === '' || partnerName === '') {
+                alert('Please enter both names.');
+                return;
+            }
+
+            var combinedString = yourName + partnerName;
+            var loveValue = 0;
+
+            for (var i = 0; i < combinedString.length; i++) {
+                loveValue += combinedString.charCodeAt(i);
+            }
+
+            var lovePercentage = loveValue % 101; // Ensure the result is between 0 and 100
+            var resultMessage = yourName + ' and ' + partnerName + ' are ' + lovePercentage + '% in love!';
+
+            document.getElementById('result').innerText = resultMessage;
+
+            // Update progress bar
+            document.getElementById('progress-bar').style.width = lovePercentage + '%';
+        }
+    </script>
+
+</body>
+</html>

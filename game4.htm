@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Guess the Number</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Guess the Number</h1>
+        <p>Try to guess the number between 1 and 100!</p>
+        <input type="number" id="userInput" min="1" max="100" placeholder="Enter your guess">
+        <button onclick="checkGuess()">Submit Guess</button>
+        <p id="result"></p>
+    </div>
+
+    <script src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+        
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        #result {
+            margin-top: 20px;
+            color: green;
+        }
+        
+    </style>
+    <script>
+        const targetNumber = Math.floor(Math.random() * 100) + 1;
+let attempts = 0;
+
+function checkGuess() {
+    const userInput = document.getElementById('userInput').value;
+
+    if (userInput === '') {
+        alert('Please enter a guess!');
+        return;
+    }
+
+    const guess = parseInt(userInput, 10);
+    attempts++;
+
+    if (guess === targetNumber) {
+        displayResult(`Congratulations! You guessed the number in ${attempts} attempts.`);
+    } else if (guess < targetNumber) {
+        displayResult('Try a higher number.');
+    } else {
+        displayResult('Try a lower number.');
+    }
+}
+
+function displayResult(message) {
+    document.getElementById('result').textContent = message;
+}
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tic tac oooo yeah</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #ecf0f1;
+    }
+
+    #game-container {
+      text-align: center;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+      margin-bottom: 20px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #3498db;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .cell img {
+      max-width: 80px;
+      max-height: 80px;
+    }
+
+    .cell:hover {
+      background-color: #2980b9;
+    }
+
+    #status {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    #reset-btn {
+      font-size: 16px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    #reset-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="game-board"></div>
+    <div id="status">Current player: <span id="current-player">X</span></div>
+    <button id="reset-btn" onclick="resetGame()">Reset Game</button>
+  </div>
+
+  <script>
+    const board = document.getElementById('game-board');
+    const cells = Array.from({ length: 9 }, (_, index) => index + 1);
+
+    let currentPlayer = 'X';
+    let gameBoard = ['', '', '', '', '', '', '', '', ''];
+    let gameActive = true;
+
+    function createCell(index) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.index = index;
+      cell.addEventListener('click', () => handleCellClick(index));
+      board.appendChild(cell);
+    }
+
+    function renderBoard() {
+      board.innerHTML = '';
+      cells.forEach(createCell);
+      updateCellContent();
+    }
+
+    function handleCellClick(index) {
+      if (!gameActive || gameBoard[index] !== '') {
+        return;
+      }
+
+      gameBoard[index] = currentPlayer;
+      renderBoard();
+      checkWinner();
+
+      if (gameActive) {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        document.getElementById('current-player').innerText = currentPlayer;
+      }
+    }
+
+    function checkWinner() {
+      const winPatterns = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
+      for (const pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+          document.getElementById('status').innerText = `${currentPlayer} wins!`;
+          gameActive = false;
+          return;
+        }
+      }
+
+      if (!gameBoard.includes('')) {
+        document.getElementById('status').innerText = 'It\'s a tie!';
+        gameActive = false;
+      }
+    }
+
+    function updateCellContent() {
+      cells.forEach((index) => {
+        const cell = document.querySelector(`.cell[data-index="${index - 1}"]`);
+        const cellContent = gameBoard[index - 1];
+        if (cellContent === 'X') {
+          cell.innerHTML = '<img src="download.jpg" alt="X">';
+        } else if (cellContent === 'O') {
+          cell.innerHTML = '<img src="imagge.jpg" alt="O">';
+        }
+      });
+    }
+
+    function resetGame() {
+      gameBoard = ['', '', '', '', '', '', '', '', ''];
+      currentPlayer = 'X';
+      gameActive = true;
+      document.getElementById('status').innerText = 'Current player: X';
+      renderBoard();
+    }
+
+    renderBoard();
+  </script>
+  
+</body>
+</html>

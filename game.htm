@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rock paper elvish bhai</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    #game-container {
+      text-align: center;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    #result {
+      font-size: 24px;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    #score {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    .choice-btn {
+      font-size: 16px;
+      margin: 10px;
+      padding: 15px 25px;
+      cursor: pointer;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .choice-btn:hover {
+      background-color: #2980b9;
+    }
+
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .close-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+    
+  <div id="game-container">
+    <h2>Rock, Paper, Scissors</h2>
+    <p>Choose your move:</p>
+    <button class="choice-btn" onclick="playGame('rock')">Rock</button>
+    <button class="choice-btn" onclick="playGame('paper')">Paper</button>
+    <button class="choice-btn" onclick="playGame('scissors')">Scissors</button>
+    <p id="result"></p>
+    <p id="score">Score: <span id="playerScore">0</span> - <span id="computerScore">0</span></p>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal">
+    <div class="modal-content">
+      <p id="modal-result"></p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    let playerScore = 0;
+    let computerScore = 0;
+
+    function playGame(playerChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+      // Display choices
+      document.getElementById('result').innerText = `You chose ${playerChoice}. Computer chose ${computerChoice}.`;
+
+      // Determine the winner
+      let result;
+      if (playerChoice === computerChoice) {
+        result = 'It\'s a tie!';
+      } else if (
+        (playerChoice === 'rock' && computerChoice === 'scissors') ||
+        (playerChoice === 'paper' && computerChoice === 'rock') ||
+        (playerChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        result = 'You win!';
+        playerScore++;
+      } else {
+        result = 'You lose!';
+        computerScore++;
+      }
+
+      // Display the result and update the score
+      document.getElementById('result').innerText += ` ${result}`;
+      document.getElementById('playerScore').innerText = playerScore;
+      document.getElementById('computerScore').innerText = computerScore;
+
+      // Display modal with result
+      showModal(result);
+    }
+
+    function showModal(result) {
+      document.getElementById('modal-result').innerText = result;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
