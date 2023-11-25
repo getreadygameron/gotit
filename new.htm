@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chaINSAW man GALLery</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #00ff00;
+            margin-top: 20px;
+        }
+
+        #videoGallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .video-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            flex: 1 0 calc(100% - 20px);
+            max-width: calc(100% - 20px);
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .video-item:hover {
+            transform: scale(1.05);
+        }
+
+        .video-item video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .video-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        
+            background: transparent;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+        }
+
+        .video-caption h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .close-btn {
+            color: #fff;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+        }
+
+        input[type="search"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-link {
+            padding: 10px;
+            margin: 0 5px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .page-link:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Video Gallery</h1>
+
+    <input type="search" id="searchInput" placeholder="Search videos">
+
+    <div id="videoGallery" class="video-gallery">
+        <!-- Video items will be dynamically added here -->
+    </div>
+
+    <div id="pagination" class="pagination"></div>
+
+    <!-- Modal -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <video controls playsinline id="modalVideo">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-caption">
+                <h3 id="modalTitle"></h3>
+                <p id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+    <script>
+        const videos = [
+        ['chainsawman.mp4', 'chainsaw man 1', 'denji love pochita'],
+        ['chainsaw2.mp4', 'chainsaw man 2', 'attack on akis ball'],
+        ['chainsaw3.mp4', 'chainsaw man 3', 'denji get goal '],
+        ['chainsaw4.mp4', ' chainsaw man4', '3 bonus for you'],
+        ['chainsaw5.mp4', 'chainsaw man 5', 'denji have motivation'],
+        ['chain6.mp4', 'chainsaw man 6', 'trust'],
+        ['chain7.mp4', 'chainsaw man 7', 'happy'],
+        ['chain8.mp4', 'chainsaw man 8', 'miss makima'],
+        ['chain9.mp4', 'chainsaw man 9', 'time ot kill'],
+        ['chain10.mp4', 'chainsaw man 10 ', 'end is coming'],
+        ['chain11.mp4','chainsaw man 11','traning is done'],
+            // Add more videos as needed
+        ];
+
+        const videoGallery = document.getElementById('videoGallery');
+        const searchInput = document.getElementById('searchInput');
+        const paginationContainer = document.getElementById('pagination');
+        const videosPerPage = 3;
+        let currentPage = 1;
+
+        const player = new Plyr('#modalVideo');
+
+        function renderVideos() {
+            videoGallery.innerHTML = '';
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredVideos = videos.filter(video => {
+                const [_, title, description] = video;
+                return title.toLowerCase().includes(searchTerm) || description.toLowerCase().includes(searchTerm);
+            });
+
+            const startIndex = (currentPage - 1) * videosPerPage;
+            const endIndex = startIndex + videosPerPage;
+            const currentVideos = filteredVideos.slice(startIndex, endIndex);
+
+            currentVideos.forEach(video => {
+                const [videoSrc, title, description] = video;
+
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+
+                const videoElement = document.createElement('video');
+                videoElement.controls = true;
+                videoElement.playsInline = true;
+                videoElement.src = videoSrc;
+                videoElement.setAttribute('data-plyr-provider', 'html5');
+
+                const videoCaption = document.createElement('div');
+                videoCaption.className = 'video-caption';
+                videoCaption.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
+                videoCaption.onclick = () => openModal(video);
+
+                videoItem.appendChild(videoElement);
+                videoItem.appendChild(videoCaption);
+                videoGallery.appendChild(videoItem);
+            });
+
+            renderPagination(filteredVideos.length);
+        }
+
+        function renderPagination(totalVideos) {
+            const totalPages = Math.ceil(totalVideos / videosPerPage);
+            paginationContainer.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.href = '#';
+                pageLink.className = 'page-link';
+                pageLink.innerText = i;
+                pageLink.onclick = () => {
+                    currentPage = i;
+                    renderVideos();
+                };
+
+                paginationContainer.appendChild(pageLink);
+            }
+        }
+
+        function openModal(videoInfo) {
+            const [videoSrc, title, description] = videoInfo;
+            player.source = {
+                type: 'video',
+                sources: [
+                    {
+                        src: videoSrc,
+                        type: 'video/mp4',
+                    },
+                ],
+            };
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('videoModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            player.stop();
+            document.getElementById('videoModal').style.display = 'none';
+        }
+
+        // Initial render
+        renderVideos();
+
+        // Listen for search input changes
+        searchInput.addEventListener('input', renderVideos);
+    </script>
+
+</body>
+
+</html>
